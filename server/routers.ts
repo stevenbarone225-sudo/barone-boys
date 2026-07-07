@@ -22,23 +22,25 @@ export const appRouter = router({
       .input(z.object({
         customerName: z.string().min(1).max(255),
         email: z.string().email().max(320),
+        phone: z.string().max(30).optional(),
         quantity: z.number().int().min(1).max(50),
         fulfillment: z.enum(["pickup", "delivery"]),
         notes: z.string().max(1000).optional(),
       }))
       .mutation(async ({ input }) => {
-        // 1. Save to database (required)
+        // 1. Save to database
         await createPreOrder({
           customerName: input.customerName,
           email: input.email,
+          phone: input.phone ?? null,
           quantity: input.quantity,
           fulfillment: input.fulfillment,
           notes: input.notes ?? null,
         });
-        // 2. Notify owner via Manus notification service (required — log failure but don't block the customer)
+        // 2. Notify owner
         const notified = await notifyOwner({
           title: `🥧 New Pre-Order: ${input.customerName}`,
-          content: `Name: ${input.customerName}\nEmail: ${input.email}\nQuantity: ${input.quantity} pie(s)\nFulfillment: ${input.fulfillment}\nNotes: ${input.notes ?? "None"}`,
+          content: `Name: ${input.customerName}\nEmail: ${input.email}\nPhone: ${input.phone ?? "N/A"}\nQuantity: ${input.quantity} pie(s)\nFulfillment: ${input.fulfillment}\nNotes: ${input.notes ?? "None"}`,
         });
         if (!notified) {
           console.error(`[PreOrder] Owner notification failed for order from ${input.email} — order was saved to DB.`);
@@ -49,12 +51,9 @@ export const appRouter = router({
 
   mailingList: router({
     subscribe: publicProcedure
-      .input(z.object({
-        email: z.string().email().max(320),
-      }))
+      .input(z.object({ email: z.string().email().max(320) }))
       .mutation(async ({ input }) => {
-        const result = await subscribeToMailingList(input.email);
-        return result;
+        return subscribeToMailingList(input.email);
       }),
   }),
 });

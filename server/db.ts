@@ -21,6 +21,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) throw new Error("User openId is required for upsert");
   const db = await getDb();
   if (!db) { console.warn("[Database] Cannot upsert user: database not available"); return; }
+
   try {
     const values: InsertUser = { openId: user.openId };
     const updateSet: Record<string, unknown> = {};
@@ -53,28 +54,34 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-export async function createPreOrder(data: InsertPreOrder) {
+export async function createPreOrder(data: {
+  customerName: string;
+  email: string;
+  phone?: string | null;
+  quantity: number;
+  fulfillment: "pickup" | "delivery";
+  notes?: string | null;
+}) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  const result = await db.insert(preOrders).values(data);
-  return result;
+  return db.insert(preOrders).values({
+    customerName: data.customerName,
+    email: data.email,
+    phone: data.phone ?? null,
+    quantity: data.quantity,
+    fulfillment: data.fulfillment,
+    notes: data.notes ?? null,
+  });
 }
 
-export async function getAllPreOrders() {
-  const db = await getDb();
-  if (!db) throw new Error("Database not available");
-  return db.select().from(preOrders).orderBy(preOrders.createdAt);
-}
-
-export async function subscribeToMailingList(email: string) {
+export async function subscribeToMailingList(email: string): Promise<{ success: boolean; alreadySubscribed: boolean }> {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   try {
     await db.insert(mailingList).values({ email });
     return { success: true, alreadySubscribed: false };
-  } catch (err: unknown) {
-    // Duplicate entry = already subscribed
-    if (err && typeof err === 'object' && 'code' in err && (err as { code: string }).code === 'ER_DUP_ENTRY') {
+  } catch (err: any) {
+    if (err?.code === 'ER_DUP_ENTRY' || err?.message?.includes('Duplicate')) {
       return { success: true, alreadySubscribed: true };
     }
     throw err;

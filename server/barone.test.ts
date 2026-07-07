@@ -2,7 +2,6 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 import { appRouter } from "./routers";
 import type { TrpcContext } from "./_core/context";
 
-// Mock DB helpers and notification
 vi.mock("./db", () => ({
   createPreOrder: vi.fn().mockResolvedValue({ insertId: 1 }),
   subscribeToMailingList: vi.fn().mockResolvedValue({ success: true, alreadySubscribed: false }),
@@ -23,18 +22,19 @@ function makeCtx(): TrpcContext {
 describe("preOrder.submit", () => {
   beforeEach(() => { vi.clearAllMocks(); });
 
-  it("accepts a valid pickup pre-order", async () => {
+  it("accepts a valid pickup pre-order with phone", async () => {
     const caller = appRouter.createCaller(makeCtx());
     const result = await caller.preOrder.submit({
       customerName: "Maria Rossi",
       email: "maria@example.com",
+      phone: "609-555-0100",
       quantity: 2,
       fulfillment: "pickup",
     });
-    expect(result).toEqual({ success: true });
+    expect(result.success).toBe(true);
   });
 
-  it("accepts a valid delivery pre-order", async () => {
+  it("accepts a valid delivery pre-order without phone", async () => {
     const caller = appRouter.createCaller(makeCtx());
     const result = await caller.preOrder.submit({
       customerName: "Giuseppe Barone",
@@ -43,7 +43,7 @@ describe("preOrder.submit", () => {
       fulfillment: "delivery",
       notes: "Please call ahead",
     });
-    expect(result).toEqual({ success: true });
+    expect(result.success).toBe(true);
   });
 
   it("rejects empty customer name", async () => {

@@ -19,6 +19,7 @@ export const preOrders = mysqlTable("pre_orders", {
   id: int("id").autoincrement().primaryKey(),
   customerName: varchar("customerName", { length: 255 }).notNull(),
   email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 30 }),
   quantity: int("quantity").notNull().default(1),
   fulfillment: mysqlEnum("fulfillment", ["pickup", "delivery"]).notNull().default("pickup"),
   notes: text("notes"),

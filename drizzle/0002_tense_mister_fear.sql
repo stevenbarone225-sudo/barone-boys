@@ -1,0 +1,1 @@
+ALTER TABLE `pre_orders` ADD `phone` varchar(30);
