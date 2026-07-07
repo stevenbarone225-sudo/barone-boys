@@ -170,14 +170,7 @@ function CurrentOffering() {
               {CURRENT_PRODUCT.description}
             </p>
 
-            {/* Highlights */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.6rem", marginBottom: "1.75rem" }}>
-              {[["🫙","Mascarpone & Ricotta"],["🌿","Pistachio Crust"],["🍫","Dark Chocolate Chips"],["🍬","Powdered Sugar Finish"]].map(([icon, label]) => (
-                <div key={label} style={{ display: "flex", alignItems: "center", gap: "0.45rem", color: "var(--pistachio-lt)", fontSize: "0.83rem" }}>
-                  <span>{icon}</span><span>{label}</span>
-                </div>
-              ))}
-            </div>
+
 
             {/* Allergen */}
             <div style={{ padding: "0.65rem 0.875rem", borderLeft: "2px solid var(--pistachio)", backgroundColor: "rgba(122,158,110,0.07)", borderRadius: "0 3px 3px 0", marginBottom: "1.75rem" }}>
@@ -351,10 +344,10 @@ function HowItWorks() {
 // ── Rotating Menu Gallery ─────────────────────────────────────────────────────
 function RotatingMenu() {
   const items = [
-    { name: "Dolce Cefalù", sub: "Pistachio Cannoli Pie", tag: "Italian Dessert", emoji: "🥧", available: true },
-    { name: "Texas-Style Smoked Ribs", sub: "Low & slow, dry-rubbed, fall-off-the-bone", tag: "BBQ", emoji: "🍖", available: false },
-    { name: "Coming Soon", sub: "Next rotating offering TBA", tag: "Stay tuned", emoji: "✦", available: false },
-    { name: "Coming Soon", sub: "Follow us to be first to know", tag: "Stay tuned", emoji: "✦", available: false },
+    { name: "Dolce Cefalù", sub: "Pistachio Cannoli Pie", tag: "Italian Dessert", emoji: "⚜", available: true },
+    { name: "Texas-Style Smoked Ribs", sub: "Low & slow, dry-rubbed, fall-off-the-bone", tag: "BBQ", emoji: "⚜", available: false },
+    { name: "Coming Soon", sub: "Next rotating offering TBA", tag: "Stay tuned", emoji: "⚜", available: false },
+    { name: "Coming Soon", sub: "Follow us to be first to know", tag: "Stay tuned", emoji: "⚜", available: false },
   ];
   return (
     <section id="menu" style={{ backgroundColor: "var(--teal)", padding: "5rem 0" }}>
@@ -379,10 +372,10 @@ function RotatingMenu() {
                 height: "180px",
                 backgroundColor: item.available ? "rgba(201,168,76,0.08)" : "rgba(255,255,255,0.03)",
                 display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: "3rem", borderBottom: "1px solid rgba(201,168,76,0.12)",
+                fontSize: "2rem", borderBottom: "1px solid rgba(201,168,76,0.12)",
                 position: "relative",
               }}>
-                <span>{item.emoji}</span>
+                <span style={{ color: "var(--gold)", opacity: item.available ? 0.9 : 0.3, fontFamily: "serif" }}>{item.emoji}</span>
                 {item.available && (
                   <div style={{ position: "absolute", top: "0.6rem", right: "0.6rem", backgroundColor: "var(--pistachio)", color: "#0f2420", fontSize: "0.62rem", fontFamily: "'Cinzel', serif", letterSpacing: "0.1em", padding: "0.2rem 0.5rem", borderRadius: "2rem" }}>
                     AVAILABLE
