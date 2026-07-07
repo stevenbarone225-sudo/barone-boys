@@ -3,7 +3,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
 // ── Asset URLs ────────────────────────────────────────────────────────────────
-const SEAL_URL   = "/manus-storage/bb_seal_new_0ad7c060.png";
+const SEAL_URL   = "/manus-storage/bb_seal_nobg_39561069.png";
 const LABEL_URL  = "/manus-storage/dolce_cefalu_label_652f580a.png";
 
 // ── Config (easy to update) ───────────────────────────────────────────────────
@@ -20,7 +20,7 @@ const CURRENT_PRODUCT = {
 function GoldRule({ className = "" }: { className?: string }) {
   return (
     <div className={`gold-rule text-sm ${className}`}>
-      <span style={{ color: "var(--gold)", fontSize: "0.85rem" }}>✦</span>
+        <span style={{ color: "var(--gold)", fontSize: "0.9rem", fontFamily: "serif" }}>⚜</span>
     </div>
   );
 }
@@ -45,8 +45,7 @@ function Nav() {
       <div className="container" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.75rem 1.5rem" }}>
         {/* Logo */}
         <a href="#hero" style={{ display: "flex", alignItems: "center", gap: "0.6rem", textDecoration: "none" }}>
-          <img src={SEAL_URL} alt="Barone Boys" style={{ width: "36px", height: "36px", objectFit: "contain", filter: "drop-shadow(0 2px 6px rgba(201,168,76,0.45))" }} />
-          <span style={{ fontFamily: "'Cinzel', serif", color: "var(--gold)", fontSize: "0.88rem", letterSpacing: "0.14em" }}>BARONE BOYS</span>
+          <img src={SEAL_URL} alt="Barone Boys" style={{ width: "38px", height: "38px", objectFit: "contain", filter: "drop-shadow(0 2px 6px rgba(201,168,76,0.45))" }} />
         </a>
 
         {/* Desktop links */}
@@ -106,8 +105,8 @@ function Hero() {
 
         <GoldRule className="max-w-xs mx-auto mb-6" />
 
-        <p className="fade-up" style={{ color: "rgba(232,201,122,0.7)", fontSize: "clamp(0.88rem, 2vw, 1rem)", maxWidth: "500px", margin: "0 auto 2.75rem", lineHeight: 1.85 }}>
-          Handcrafted food made by the Barone boys — rotating, seasonal, and always worth waiting for. One week it's a Sicilian cannoli pie. The next, Texas-style smoked ribs. The through-line is always craft.
+        <p className="fade-up" style={{ color: "rgba(232,201,122,0.7)", fontSize: "clamp(0.88rem, 2vw, 1rem)", maxWidth: "440px", margin: "0 auto 2.75rem", lineHeight: 1.85 }}>
+          Handcrafted food made with care, in small batches, out of Somers Point, NJ.
         </p>
 
         <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
